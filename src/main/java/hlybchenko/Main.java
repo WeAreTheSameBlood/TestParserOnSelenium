@@ -32,15 +32,20 @@ public class Main {
         elementClicker(driver, "//*[text()[contains(.,'Відеокарти')]]", 2000);
 
         // Click to "seller only Rozetka"
-        elementClicker(driver, "//*[contains(@class, 'checkbox-filter__link') and contains(., 'Rozetka')]",
-                1000);
+        try {
+            elementClicker(driver, "//*[contains(@class, 'checkbox-filter__link') and contains(., 'Rozetka')]",
+                    1000);
+        }catch (Exception e) {
+            System.out.println("Vendor selection not available.");
+        }
 
         List<WebElement> description = driver.findElements(By.className("goods-tile__title"));
+        List<WebElement> links = driver.findElements(By.className("goods-tile__heading"));
         List<WebElement> price  = driver.findElements(By.className("goods-tile__price-value"));
 
         for (int i = 1; i <= description.size()-20; i++) {
             System.out.println("------\nDescription: " + description.get(i).getText() +
-                    "\nPrice: " +  price.get(i).getText() + " UAH.");
+                    "\nPrice: " +  price.get(i).getText() + " UAH.\n" + links.get(i).getAttribute("href"));
         }
 
         System.out.println("\nWe find of - " + driver.getTitle());
